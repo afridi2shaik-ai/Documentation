@@ -18,3 +18,11 @@ https://docs.sonarsource.com/sonarqube-community-build/server-installation/on-ku
 
 https://artifacthub.io/packages/helm/sonarqube/sonarqube
 
+https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html#kubectl-install-update
+
+https://github.com/n8n-io/n8n-hosting/tree/main/docker-caddy/local_files
+
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+https://argo-cd.readthedocs.io/en/stable/getting_started/, https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-management/#adding-a-cluster
+
