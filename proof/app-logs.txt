@@ -1,0 +1,48 @@
+kubectl get pods -n devops-assignment
+NAME                         READY   STATUS    RESTARTS   AGE
+sample-app-b787ffd44-6mljk   1/1     Running   0          118m
+sample-app-b787ffd44-ctnzg   1/1     Running   0          118m
+dmin@DESKTOP-PFKL3TS:/mnt/c/Users/Admin/Desktop/assignment$ kubectl logs sample-app-b787ffd44-6mljk -n devops-assignment
+Sat May 16 15:37:51 UTC 2026 INFO Application running successfully
+Sat May 16 15:37:51 UTC 2026 ERROR Database connection failed
+Sat May 16 15:38:01 UTC 2026 INFO Application running successfully
+Sat May 16 15:38:01 UTC 2026 ERROR Database connection failed
+Sat May 16 15:38:11 UTC 2026 INFO Application running successfully
+Sat May 16 15:38:11 UTC 2026 ERROR Database connection failed
+Sat May 16 15:38:21 UTC 2026 INFO Application running successfully
+Sat May 16 15:38:21 UTC 2026 ERROR Database connection failed
+Sat May 16 15:38:31 UTC 2026 INFO Application running successfully
+Sat May 16 15:38:31 UTC 2026 ERROR Database connection failed
+Sat May 16 15:38:41 UTC 2026 INFO Application running successfully
+Sat May 16 15:38:41 UTC 2026 ERROR Database connection failed
+Sat May 16 15:38:51 UTC 2026 INFO Application running successfully
+Sat May 16 15:38:51 UTC 2026 ERROR Database connection failed
+Sat May 16 15:39:01 UTC 2026 INFO Application running successfully
+Sat May 16 15:39:01 UTC 2026 ERROR Database connection failed
+Sat May 16 15:39:11 UTC 2026 INFO Application running successfully
+Sat May 16 15:39:11 UTC 2026 ERROR Database connection failed
+Sat May 16 15:39:21 UTC 2026 INFO Application running successfully
+Sat May 16 15:39:21 UTC 2026 ERROR Database connection failed
+Sat May 16 15:39:31 UTC 2026 INFO Application running successfully
+Sat May 16 15:39:31 UTC 2026 ERROR Database connection failed
+Sat May 16 15:39:41 UTC 2026 INFO Application running successfully
+Sat May 16 15:39:41 UTC 2026 ERROR Database connection failed
+Sat May 16 15:39:51 UTC 2026 INFO Application running successfully
+Sat May 16 15:39:51 UTC 2026 ERROR Database connection failed
+Sat May 16 15:40:01 UTC 2026 INFO Application running successfully
+Sat May 16 15:40:01 UTC 2026 ERROR Database connection failed
+Sat May 16 15:40:11 UTC 2026 INFO Application running successfully
+Sat May 16 15:40:11 UTC 2026 ERROR Database connection failed
+Sat May 16 15:40:21 UTC 2026 INFO Application running successfully
+Sat May 16 15:40:21 UTC 2026 ERROR Database connection failed
+Sat May 16 15:40:31 UTC 2026 INFO Application running successfully
+Sat May 16 15:40:31 UTC 2026 ERROR Database connection failed
+Sat May 16 15:40:41 UTC 2026 INFO Application running successfully
+Sat May 16 15:40:41 UTC 2026 ERROR Database connection failed
+Sat May 16 15:40:51 UTC 2026 INFO Application running successfully
+Sat May 16 15:40:51 UTC 2026 ERROR Database connection failed
+Sat May 16 15:41:01 UTC 2026 INFO Application running successfully
+Sat May 16 15:41:01 UTC 2026 ERROR Database connection failed
+Sat May 16 15:41:11 UTC 2026 INFO Application running successfully
+Sat May 16 15:41:11 UTC 2026 ERROR Database connection failed
+Sat May 16 15:41:21 UTC 2026 INFO Application running successfully

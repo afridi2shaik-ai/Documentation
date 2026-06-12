@@ -1,0 +1,102 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: amazon-cloudwatch
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush         1
+        Daemon        Off
+        Log_Level     info
+        Parsers_File  parsers.conf
+
+    # ── INPUT ─────────────────────────────────────────────────────────────
+    [INPUT]
+        Name              tail
+        Tag               kube.<namespace_name>.<pod_name>.<container_name>.<container_id>
+        Tag_Regex         (?<pod_name>[a-z0-9](?:[-a-z0-9]*[a-z0-9])?(?:\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*)_(?<namespace_name>[^_]+)_(?<container_name>.+)-(?<container_id>[a-z0-9]{64})\.log$
+        Path              /var/log/containers/*.log
+        Parser            cri
+        Refresh_Interval  5
+        Mem_Buf_Limit     50MB
+        Skip_Long_Lines   On
+
+    # ── FILTER 1: Extract namespace/pod/container from Tag via Lua ────────
+    # This works even when Kubernetes API server is unreachable.
+    # Tag format: kube.<namespace_name>.<pod_name>.<container_name>.<container_id>
+    [FILTER]
+        Name    lua
+        Match   kube.*
+        script  extract_k8s_fields.lua
+        call    extract_k8s_fields
+
+    # ── FILTER 2: Kubernetes API enrichment (best-effort) ────────────────
+    # Still attempt API enrichment. If unreachable, fields from Lua remain.
+    [FILTER]
+        Name                kubernetes
+        Match               kube.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_CA_File        /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        Kube_Token_File     /var/run/secrets/kubernetes.io/serviceaccount/token
+        Kube_Tag_Prefix     kube.
+        Regex_Parser        custom-tag
+        Merge_Log           On
+        Keep_Log            On
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+
+    # ── OUTPUT ────────────────────────────────────────────────────────────
+    [OUTPUT]
+        Name              cloudwatch_logs
+        Match             kube.*
+        region            ap-south-1
+        log_group_name    /eks/ai-voice-agent-logs/logs
+        log_stream_prefix fluent-bit-
+        auto_create_group true
+        log_format        json
+
+  # ── Lua script: parse Tag → namespace_name, pod_name, container_name ──
+  extract_k8s_fields.lua: |
+    function extract_k8s_fields(tag, timestamp, record)
+      -- Tag format: kube.<namespace_name>.<pod_name>.<container_name>.<container_id>
+      local namespace_name, pod_name, container_name, container_id =
+        tag:match("^kube%.([^%.]+)%.([^%.]+)%.([^%.]+)%.(%w+)$")
+
+      if namespace_name then
+        record["namespace_name"] = namespace_name
+        record["pod_name"]       = pod_name
+        record["container_name"] = container_name
+      else
+        -- Fallback: try splitting on dots generically
+        local parts = {}
+        for part in tag:gmatch("[^%.]+") do
+          table.insert(parts, part)
+        end
+        -- parts[1]=kube, [2]=namespace, [3]=pod, [4]=container, [5]=container_id
+        if #parts >= 4 then
+          record["namespace_name"] = parts[2]
+          record["pod_name"]       = parts[3]
+          record["container_name"] = parts[4]
+        end
+      end
+
+      return 1, timestamp, record
+    end
+
+  parsers.conf: |
+    # CRI parser — for containerd runtime (EKS 1.24+ default)
+    [PARSER]
+        Name        cri
+        Format      regex
+        Regex       ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%L%z
+
+    # custom-tag parser — used by kubernetes filter Regex_Parser
+    [PARSER]
+        Name    custom-tag
+        Format  regex
+        Regex   ^(?<namespace_name>[^.]+)\.(?<pod_name>[a-z0-9](?:[-a-z0-9]*[a-z0-9])?(?:\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*)\.(?<container_name>.+)\.(?<container_id>[a-z0-9]{64})$

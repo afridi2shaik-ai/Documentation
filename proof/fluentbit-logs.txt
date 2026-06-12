@@ -1,0 +1,26 @@
+kubectl logs fluent-bit-hwtv8 -n amazon-cloudwatch
+AWS for Fluent Bit Container Image Version 2.34.3.20260506
+Fluent Bit v1.9.10
+* Copyright (C) 2015-2022 The Fluent Bit Authors
+* Fluent Bit is a CNCF sub-project under the umbrella of Fluentd
+* https://fluentbit.io
+
+[2026/05/16 17:19:48] [ info] [fluent bit] version=1.9.10, commit=e4a311c35f, pid=1
+[2026/05/16 17:19:48] [ info] [storage] version=1.4.0, type=memory-only, sync=normal, checksum=disabled, max_chunks_up=128
+[2026/05/16 17:19:48] [ info] [cmetrics] version=0.3.7
+[2026/05/16 17:19:48] [ info] [filter:kubernetes:kubernetes.1] https=1 host=kubernetes.default.svc port=443
+[2026/05/16 17:19:48] [ info] [filter:kubernetes:kubernetes.1]  token updated
+[2026/05/16 17:19:48] [ info] [filter:kubernetes:kubernetes.1] local POD info OK
+[2026/05/16 17:19:48] [ info] [filter:kubernetes:kubernetes.1] testing connectivity with API server...
+[2026/05/16 17:19:48] [ warn] [filter:kubernetes:kubernetes.1] could not get meta for POD fluent-bit-hwtv8
+[2026/05/16 17:19:48] [ info] [sp] stream processor started
+[2026/05/16 17:19:48] [ info] [output:cloudwatch_logs:cloudwatch_logs.0] worker #0 started
+[2026/05/16 17:19:48] [ info] [input:tail:tail.0] inotify_fs_add(): inode=134417328 watch_fd=1 name=/var/log/containers/sample-app-b787ffd44-6mljk_devops-assignment_sample-container-55b04f73c1e9a3e255dafc8026fe6389887a9a51bfbe4976c42fdabb2c0edee6.log
+[2026/05/16 17:19:48] [ info] [input:tail:tail.0] inotify_fs_add(): inode=134417334 watch_fd=2 name=/var/log/containers/sample-app-b787ffd44-ctnzg_devops-assignment_sample-container-1f805cee365c333acd5b051d61388998d3c31f68f6cbb2384d600244c38eb3d7.log
+[2026/05/16 17:19:48] [ info] [input:tail:tail.0] inotify_fs_add(): inode=201517994 watch_fd=3 name=/var/log/containers/fluent-bit-hwtv8_amazon-cloudwatch_fluent-bit-c4adfad879c6ac0b2a7aa8245482bc1dd90c65fe4bf04ee28a475b98fb5fa83f.log
+[2026/05/16 17:19:49] [ info] [output:cloudwatch_logs:cloudwatch_logs.0] Creating log stream fluent-bit-kube.amazon-cloudwatch.fluent-bit-hwtv8.fluent-bit.c4adfad879c6ac0b2a7aa8245482bc1dd90c65fe4bf04ee28a475b98fb5fa83f in log group /eks/devops-assignment/logs
+[2026/05/16 17:19:49] [ info] [output:cloudwatch_logs:cloudwatch_logs.0] Created log stream fluent-bit-kube.amazon-cloudwatch.fluent-bit-hwtv8.fluent-bit.c4adfad879c6ac0b2a7aa8245482bc1dd90c65fe4bf04ee28a475b98fb5fa83f
+[2026/05/16 17:19:54] [ info] [output:cloudwatch_logs:cloudwatch_logs.0] Creating log stream fluent-bit-kube.devops-assignment.sample-app-b787ffd44-ctnzg.sample-container.1f805cee365c333acd5b051d61388998d3c31f68f6cbb2384d600244c38eb3d7 in log group /eks/devops-assignment/logs
+[2026/05/16 17:19:54] [ info] [output:cloudwatch_logs:cloudwatch_logs.0] Creating log stream fluent-bit-kube.devops-assignment.sample-app-b787ffd44-6mljk.sample-container.55b04f73c1e9a3e255dafc8026fe6389887a9a51bfbe4976c42fdabb2c0edee6 in log group /eks/devops-assignment/logs
+[2026/05/16 17:19:54] [ info] [output:cloudwatch_logs:cloudwatch_logs.0] Log Stream fluent-bit-kube.devops-assignment.sample-app-b787ffd44-ctnzg.sample-container.1f805cee365c333acd5b051d61388998d3c31f68f6cbb2384d600244c38eb3d7 already exists
+[2026/05/16 17:19:54] [ info] [output:cloudwatch_logs:cloudwatch_logs.0] Log Stream fluent-bit-kube.devops-assignment.sample-app-b787ffd44-6mljk.sample-container.55b04f73c1e9a3e255dafc8026fe6389887a9a51bfbe4976c42fdabb2c0edee6 already exists

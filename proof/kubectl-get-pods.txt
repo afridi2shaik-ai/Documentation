@@ -1,0 +1,4 @@
+kubectl get pods -n amazon-cloudwatch
+
+NAME               READY   STATUS    RESTARTS   AGE
+fluent-bit-hwtv8   1/1     Running   0          16m
